@@ -86,8 +86,12 @@ export default function PublicarCosecha() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.nombre || !form.categoria_id || !form.cantidad_disponible || !form.unidad_medida || !form.precio) {
-      setError('Complete todos los campos obligatorios');
+    if (!form.nombre || !form.categoria_id || !form.variedad || !form.cantidad_disponible || !form.unidad_medida || !form.precio) {
+      setError('Complete todos los campos obligatorios: nombre, categoría, variedad, cantidad, unidad y precio');
+      return;
+    }
+    if (previews.length === 0) {
+      setError('Debe subir al menos 1 imagen del producto');
       return;
     }
     setLoading(true);

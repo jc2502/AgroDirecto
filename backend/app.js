@@ -16,6 +16,8 @@ const productoRoutes = require('./routes/productoRoutes');
 const preventaRoutes = require('./routes/preventaRoutes');
 const busquedaRoutes = require('./routes/busquedaRoutes');
 const categoriaRoutes = require('./routes/categoriaRoutes');
+const comprasRoutes = require('./routes/comprasRoutes');
+const notificacionRoutes = require('./routes/notificacionRoutes');
 
 const app = express();
 
@@ -59,6 +61,8 @@ app.use('/api/productos', productoRoutes);
 app.use('/api/preventas', preventaRoutes);
 app.use('/api/busqueda', busquedaRoutes);
 app.use('/api/categorias', categoriaRoutes);
+app.use('/api/compras', comprasRoutes);
+app.use('/api/notificaciones', notificacionRoutes);
 
 // =========================================
 // HEALTH CHECK
@@ -78,7 +82,7 @@ app.use((err, req, res, next) => {
     }
 
     if (err.code === 'LIMIT_FILE_SIZE') {
-        return res.status(413).json({ error: 'El archivo excede el tamaño máximo de 5MB' });
+        return res.status(413).json({ error: 'El archivo excede el tamaño máximo de 10MB' });
     }
 
     if (err.name === 'JsonWebTokenError') {

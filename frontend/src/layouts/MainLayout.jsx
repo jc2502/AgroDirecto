@@ -1,5 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import useAuthStore from '../store/useAuthStore';
+import NotificationBell from '../components/NotificationBell';
 
 export default function MainLayout() {
   const { user, token, logout } = useAuthStore();
@@ -19,6 +20,7 @@ export default function MainLayout() {
               <Link to="/marketplace" className="text-sm font-semibold text-gray-600 hover:text-primary-600 transition-colors mr-2">Marketplace</Link>
               {token && user ? (
                 <>
+                  <NotificationBell />
                   <Link to="/dashboard" className="btn-primary text-sm">Ir al Dashboard</Link>
                   <button onClick={logout} className="btn-secondary text-sm">Cerrar Sesión</button>
                 </>

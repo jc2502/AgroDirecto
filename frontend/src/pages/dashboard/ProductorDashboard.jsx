@@ -54,6 +54,34 @@ export default function ProductorDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Link to="/dashboard/mis-productos" className="card-hover flex items-center space-x-4">
+          <span className="text-3xl">🌽</span>
+          <div>
+            <h3 className="font-semibold">Mis Productos</h3>
+            <p className="text-sm text-gray-500">Gestiona tus cosechas publicadas</p>
+          </div>
+        </Link>
+        <Link to="/publicar-cosecha" className="card-hover flex items-center space-x-4">
+          <span className="text-3xl">🌾</span>
+          <div>
+            <h3 className="font-semibold">Nueva Cosecha</h3>
+            <p className="text-sm text-gray-500">Publica un nuevo producto</p>
+          </div>
+        </Link>
+        <Link to="/mis-ventas" className="card-hover flex items-center space-x-4">
+          <span className="text-3xl">💰</span>
+          <div>
+            <h3 className="font-semibold">Mis Ventas</h3>
+            <p className="text-sm text-gray-500">Gestiona pedidos recibidos</p>
+          </div>
+        </Link>
+        <Link to="/preventas" className="card-hover flex items-center space-x-4">
+          <span className="text-3xl">📋</span>
+          <div>
+            <h3 className="font-semibold">Reservas Recibidas</h3>
+            <p className="text-sm text-gray-500">Administra preventas</p>
+          </div>
+        </Link>
         <Link to="/dashboard/geolocalizacion" className="card-hover flex items-center space-x-4">
           <span className="text-3xl">📍</span>
           <div>
@@ -66,20 +94,6 @@ export default function ProductorDashboard() {
           <div>
             <h3 className="font-semibold">Documentos</h3>
             <p className="text-sm text-gray-500">Sube tus documentos de verificación</p>
-          </div>
-        </Link>
-        <Link to="/dashboard/mis-productos" className="card-hover flex items-center space-x-4">
-          <span className="text-3xl">🌽</span>
-          <div>
-            <h3 className="font-semibold">Mis Productos</h3>
-            <p className="text-sm text-gray-500">Gestiona tus cosechas publicadas</p>
-          </div>
-        </Link>
-        <Link to="/dashboard/publicar-cosecha" className="card-hover flex items-center space-x-4">
-          <span className="text-3xl">🌾</span>
-          <div>
-            <h3 className="font-semibold">Nueva Cosecha</h3>
-            <p className="text-sm text-gray-500">Publica un nuevo producto</p>
           </div>
         </Link>
       </div>

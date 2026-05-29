@@ -92,6 +92,31 @@ export default function ProductoDetalle() {
     );
   }
 
+  const handleComprar = async (e) => {
+    e.preventDefault();
+    if (!reservaCantidad || parseFloat(reservaCantidad) <= 0) {
+      setErrorMsg('Ingrese una cantidad válida mayor a 0');
+      return;
+    }
+    setReservaLoading(true);
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    try {
+      const { data } = await api.post('/compras/comprar', {
+        producto_id: producto.id,
+        cantidad: parseFloat(reservaCantidad)
+      });
+      setSuccessMsg(`Compra realizada. Total: Bs ${data.total}. El productor coordinará el envío.`);
+      setReservaCantidad('');
+      fetchProducto();
+    } catch (err) {
+      setErrorMsg(err.response?.data?.error || 'Error al procesar la compra');
+    } finally {
+      setReservaLoading(false);
+    }
+  };
+
   const handleReservar = async (e) => {
     e.preventDefault();
     if (!reservaCantidad || parseFloat(reservaCantidad) <= 0) {
@@ -109,7 +134,6 @@ export default function ProductoDetalle() {
       });
       setSuccessMsg(`Reserva de ${reservaCantidad} ${producto.unidad_medida} completada exitosamente.`);
       setReservaCantidad('');
-      // Recargar datos del producto para actualizar stock
       fetchProducto();
     } catch (err) {
       setErrorMsg(err.response?.data?.error || 'Error al procesar la reserva');
@@ -215,6 +239,64 @@ export default function ProductoDetalle() {
                 Fecha de recolección: {new Date(producto.fecha_disponibilidad).toLocaleDateString()}
               </p>
               <Countdown targetDate={producto.fecha_disponibilidad} />
+            </div>
+          )}
+
+          {/* Formulario de Compra Directa para productos DISPONIBLE */}
+          {producto.estado === 'DISPONIBLE' && (
+            <div className="border-t pt-4">
+              {esComprador ? (
+                <form onSubmit={handleComprar} className="bg-blue-50/50 p-4 border border-blue-200/60 rounded-xl space-y-3">
+                  <h3 className="font-bold text-sm text-blue-950 flex items-center gap-1.5">
+                    <span>🛒</span>
+                    <span>Comprar ahora</span>
+                  </h3>
+
+                  {errorMsg && <p className="text-xs text-red-600 bg-red-50 p-2 rounded border border-red-100">{errorMsg}</p>}
+                  {successMsg && <p className="text-xs text-green-700 bg-green-50 p-2 rounded border border-green-100">{successMsg}</p>}
+
+                  <div className="grid grid-cols-2 gap-3 items-end">
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 mb-1">Cantidad</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        min="0.01"
+                        max={producto.cantidad_disponible}
+                        value={reservaCantidad}
+                        onChange={(e) => setReservaCantidad(e.target.value)}
+                        placeholder="Ej: 2"
+                        className="input-field py-2 text-sm"
+                      />
+                    </div>
+                    <div className="bg-white p-2 rounded-lg border text-right">
+                      <p className="text-[10px] text-gray-500 font-medium">Total</p>
+                      <p className="text-sm font-bold text-gray-900">Bs {totalEstimado}</p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={reservaLoading || !reservaCantidad || parseFloat(reservaCantidad) <= 0}
+                    className="btn-primary w-full text-sm py-2.5 flex items-center justify-center gap-1.5"
+                  >
+                    {reservaLoading ? 'Procesando...' : `Comprar (Bs ${totalEstimado})`}
+                  </button>
+                </form>
+              ) : (
+                <div className="bg-gray-50 p-4 border border-gray-200 rounded-xl text-center">
+                  <p className="text-xs text-gray-500">
+                    {user
+                      ? '⚠️ Solo compradores pueden comprar productos.'
+                      : '🔑 Inicia sesión como Comprador para comprar.'}
+                  </p>
+                  {!user && (
+                    <Link to="/login" className="btn-primary text-xs mt-2 inline-block">
+                      Iniciar Sesión
+                    </Link>
+                  )}
+                </div>
+              )}
             </div>
           )}
 

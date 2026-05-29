@@ -31,6 +31,10 @@ const productoController = {
                 return res.status(400).json({ error: 'Nombre, categoría, cantidad, unidad y precio son requeridos' });
             }
 
+            if (!variedad) {
+                return res.status(400).json({ error: 'La variedad es requerida' });
+            }
+
             if (parseFloat(cantidad_disponible) < 0) {
                 return res.status(400).json({ error: 'La cantidad no puede ser negativa' });
             }
@@ -44,6 +48,10 @@ const productoController = {
                 if (dateError) {
                     return res.status(400).json({ error: dateError });
                 }
+            }
+
+            if (!req.files || req.files.length === 0) {
+                return res.status(400).json({ error: 'Debe subir al menos 1 imagen del producto' });
             }
 
             let imagenesGuardadas = [];
@@ -69,8 +77,17 @@ const productoController = {
         }
     },
 
+    _checkVerificado(usuarioId) {
+        const db = getConnection();
+        const usuario = db.prepare('SELECT estado_verificacion FROM usuarios WHERE id = ?').get(usuarioId);
+        if (usuario.estado_verificacion !== 'VERIFICADO') {
+            throw { status: 403, message: 'Su cuenta ya no está verificada. No puede realizar esta acción.' };
+        }
+    },
+
     async update(req, res, next) {
         try {
+            this._checkVerificado(req.user.id);
             const db = getConnection();
             const productor = db.prepare(
                 'SELECT id FROM productores WHERE usuario_id = ?'
@@ -96,6 +113,7 @@ const productoController = {
 
     delete(req, res, next) {
         try {
+            this._checkVerificado(req.user.id);
             const db = getConnection();
             const productor = db.prepare(
                 'SELECT id FROM productores WHERE usuario_id = ?'
@@ -147,6 +165,7 @@ const productoController = {
 
     updateStock(req, res, next) {
         try {
+            this._checkVerificado(req.user.id);
             const db = getConnection();
             const productor = db.prepare(
                 'SELECT id FROM productores WHERE usuario_id = ?'

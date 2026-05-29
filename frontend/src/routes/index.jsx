@@ -10,6 +10,8 @@ import Documentos from '../pages/Documentos';
 import MisProductos from '../pages/productos/MisProductos';
 import PublicarCosecha from '../pages/productos/PublicarCosecha';
 import ProductoDetalle from '../pages/productos/ProductoDetalle';
+import MisPedidos from '../pages/productos/MisPedidos';
+import MisVentas from '../pages/productos/MisVentas';
 import ProductorDashboard from '../pages/dashboard/ProductorDashboard';
 import CompradorDashboard from '../pages/dashboard/CompradorDashboard';
 import TransportistaDashboard from '../pages/dashboard/TransportistaDashboard';
@@ -96,6 +98,22 @@ const router = createBrowserRouter([
       { path: 'publicar-cosecha', element: <ProtectedRoute allowedRoles={['PRODUCTOR']}><PublicarCosecha /></ProtectedRoute> },
       { path: 'editar-cosecha/:id', element: <ProtectedRoute allowedRoles={['PRODUCTOR']}><PublicarCosecha /></ProtectedRoute> },
       { path: 'producto/:id', element: <ProductoDetalle /> },
+      { path: 'mis-pedidos', element: <ProtectedRoute allowedRoles={['COMPRADOR']}><MisPedidos /></ProtectedRoute> },
+      { path: 'mis-ventas', element: <ProtectedRoute allowedRoles={['PRODUCTOR']}><MisVentas /></ProtectedRoute> },
+    ],
+  },
+  {
+    path: '/mis-pedidos',
+    element: <ProtectedRoute allowedRoles={['COMPRADOR']}><DashboardLayout /></ProtectedRoute>,
+    children: [
+      { index: true, element: <MisPedidos /> },
+    ],
+  },
+  {
+    path: '/mis-ventas',
+    element: <ProtectedRoute allowedRoles={['PRODUCTOR']}><DashboardLayout /></ProtectedRoute>,
+    children: [
+      { index: true, element: <MisVentas /> },
     ],
   },
 ]);

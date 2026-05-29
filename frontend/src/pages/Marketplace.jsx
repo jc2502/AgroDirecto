@@ -342,7 +342,10 @@ export default function Marketplace() {
                             {p.estado}
                           </span>
                         </div>
-                        {p.variedad && <p className="text-xs text-gray-500 truncate">{p.variedad}</p>}
+                        <div className="flex items-center gap-2 mt-1">
+                          {p.variedad && <p className="text-xs text-gray-500 truncate">{p.variedad}</p>}
+                          <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full font-medium">{p.categoria_nombre}</span>
+                        </div>
                         
                         <div className="mt-1 flex items-baseline gap-2">
                           <span className="text-base font-bold text-primary-600">Bs {p.precio} / {p.unidad_medida.toLowerCase()}</span>

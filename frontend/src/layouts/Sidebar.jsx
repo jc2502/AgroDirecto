@@ -6,6 +6,7 @@ const menuItems = {
     { to: '/dashboard/productor', label: 'Dashboard', icon: '📊' },
     { to: '/mis-productos', label: 'Mis Productos', icon: '🌽' },
     { to: '/publicar-cosecha', label: 'Publicar Cosecha', icon: '🌾' },
+    { to: '/mis-ventas', label: 'Mis Ventas', icon: '💰' },
     { to: '/preventas', label: 'Reservas Recibidas', icon: '📋' },
     { to: '/dashboard/geolocalizacion', label: 'Mi Ubicación', icon: '📍' },
     { to: '/dashboard/documentos', label: 'Documentos', icon: '📄' },
@@ -13,6 +14,7 @@ const menuItems = {
   COMPRADOR: [
     { to: '/dashboard/comprador', label: 'Dashboard', icon: '📊' },
     { to: '/marketplace', label: 'Marketplace', icon: '🛒' },
+    { to: '/mis-pedidos', label: 'Mis Pedidos', icon: '🛍️' },
     { to: '/preventas', label: 'Mis Reservas', icon: '🌾' },
   ],
   TRANSPORTISTA: [

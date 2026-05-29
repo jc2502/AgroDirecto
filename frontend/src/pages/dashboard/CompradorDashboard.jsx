@@ -30,7 +30,7 @@ export default function CompradorDashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="card border-primary-200 bg-primary-50/20 hover:shadow-md transition-shadow">
           <span className="text-4xl block mb-3">🛒</span>
           <h2 className="text-lg font-bold text-gray-900 mb-2">Explorar el Marketplace</h2>
@@ -39,6 +39,17 @@ export default function CompradorDashboard() {
           </p>
           <Link to="/marketplace" className="btn-primary inline-block text-center text-sm">
             Ir al Marketplace &rarr;
+          </Link>
+        </div>
+
+        <div className="card hover:shadow-md transition-shadow">
+          <span className="text-4xl block mb-3">🛍️</span>
+          <h2 className="text-lg font-bold text-gray-900 mb-2">Mis Pedidos</h2>
+          <p className="text-sm text-gray-600 mb-4">
+            Da seguimiento a tus compras, confirma entregas y revisa tu historial de pedidos y reservas.
+          </p>
+          <Link to="/mis-pedidos" className="btn-primary inline-block text-center text-sm">
+            Ver pedidos &rarr;
           </Link>
         </div>
 
