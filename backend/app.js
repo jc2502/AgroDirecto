@@ -12,6 +12,7 @@ const userRoutes = require('./routes/userRoutes');
 const productorRoutes = require('./routes/productorRoutes');
 const documentoRoutes = require('./routes/documentoRoutes');
 const mapsRoutes = require('./routes/mapsRoutes');
+const productoRoutes = require('./routes/productoRoutes');
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/productores', productorRoutes);
 app.use('/api/documentos', documentoRoutes);
 app.use('/api/maps', mapsRoutes);
+app.use('/api/productos', productoRoutes);
 
 // =========================================
 // HEALTH CHECK

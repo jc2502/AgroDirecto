@@ -68,13 +68,20 @@ export default function ProductorDashboard() {
             <p className="text-sm text-gray-500">Sube tus documentos de verificación</p>
           </div>
         </Link>
-        <div className="card-hover flex items-center space-x-4 opacity-50 cursor-not-allowed">
+        <Link to="/dashboard/mis-productos" className="card-hover flex items-center space-x-4">
           <span className="text-3xl">🌽</span>
           <div>
             <h3 className="font-semibold">Mis Productos</h3>
-            <p className="text-sm text-gray-500">Próximamente</p>
+            <p className="text-sm text-gray-500">Gestiona tus cosechas publicadas</p>
           </div>
-        </div>
+        </Link>
+        <Link to="/dashboard/publicar-cosecha" className="card-hover flex items-center space-x-4">
+          <span className="text-3xl">🌾</span>
+          <div>
+            <h3 className="font-semibold">Nueva Cosecha</h3>
+            <p className="text-sm text-gray-500">Publica un nuevo producto</p>
+          </div>
+        </Link>
       </div>
 
       {perfil?.latitud && perfil?.longitud && (

@@ -4,6 +4,8 @@ import useAuthStore from '../store/useAuthStore';
 const menuItems = {
   PRODUCTOR: [
     { to: '/dashboard/productor', label: 'Dashboard', icon: '📊' },
+    { to: '/dashboard/mis-productos', label: 'Mis Productos', icon: '🌽' },
+    { to: '/dashboard/publicar-cosecha', label: 'Publicar Cosecha', icon: '🌾' },
     { to: '/dashboard/geolocalizacion', label: 'Mi Ubicación', icon: '📍' },
     { to: '/dashboard/documentos', label: 'Documentos', icon: '📄' },
   ],
