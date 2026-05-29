@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import useAuthStore from '../../store/useAuthStore';
 
 export default function CompradorDashboard() {
@@ -29,15 +30,27 @@ export default function CompradorDashboard() {
         </div>
       </div>
 
-      <div className="card text-center py-12">
-        <span className="text-5xl block mb-4">🛒</span>
-        <h2 className="text-xl font-semibold mb-2">Explora Productos</h2>
-        <p className="text-gray-500 mb-4">
-          Pronto podrás navegar por los productos de productores verificados.
-        </p>
-        <div className="inline-flex items-center space-x-2 bg-primary-50 text-primary-700 px-4 py-2 rounded-lg text-sm">
-          <span className="animate-pulse">⏳</span>
-          <span>Módulo de productos en desarrollo</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="card border-primary-200 bg-primary-50/20 hover:shadow-md transition-shadow">
+          <span className="text-4xl block mb-3">🛒</span>
+          <h2 className="text-lg font-bold text-gray-900 mb-2">Explorar el Marketplace</h2>
+          <p className="text-sm text-gray-600 mb-4">
+            Encuentra cosechas frescas cerca de ti de productores locales verificados. Filtra por distancia, precio y categoría.
+          </p>
+          <Link to="/marketplace" className="btn-primary inline-block text-center text-sm">
+            Ir al Marketplace &rarr;
+          </Link>
+        </div>
+
+        <div className="card hover:shadow-md transition-shadow">
+          <span className="text-4xl block mb-3">🌾</span>
+          <h2 className="text-lg font-bold text-gray-900 mb-2">Mis Reservas de Preventa</h2>
+          <p className="text-sm text-gray-600 mb-4">
+            Monitorea el estado de tus reservas de cosechas futuras y comunícate con los productores antes de la recolección.
+          </p>
+          <Link to="/preventas" className="btn-secondary inline-block text-center text-sm">
+            Ver mis reservas &rarr;
+          </Link>
         </div>
       </div>
     </div>

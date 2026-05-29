@@ -52,10 +52,34 @@ function validateRegistrationInput(data) {
     return Object.keys(errors).length > 0 ? errors : null;
 }
 
+function validatePreventaDate(dateString) {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        return 'La fecha de disponibilidad futura no es válida';
+    }
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const targetDate = new Date(date);
+    targetDate.setHours(0, 0, 0, 0);
+    
+    const diffTime = targetDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays < 3) {
+        return 'La fecha de disponibilidad futura debe ser de al menos 3 días a partir de hoy';
+    }
+    if (diffDays > 90) {
+        return 'La fecha de disponibilidad futura no puede exceder los 90 días a partir de hoy';
+    }
+    return null;
+}
+
 module.exports = {
     validatePassword,
     validateEmail,
     validateCelular,
     sanitizeString,
     validateRegistrationInput,
+    validatePreventaDate,
 };

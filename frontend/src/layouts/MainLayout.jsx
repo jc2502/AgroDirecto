@@ -16,6 +16,7 @@ export default function MainLayout() {
               <span className="hidden sm:inline text-sm text-primary-600 font-medium">Santa Cruz</span>
             </Link>
             <div className="flex items-center space-x-4">
+              <Link to="/marketplace" className="text-sm font-semibold text-gray-600 hover:text-primary-600 transition-colors mr-2">Marketplace</Link>
               {token && user ? (
                 <>
                   <Link to="/dashboard" className="btn-primary text-sm">Ir al Dashboard</Link>

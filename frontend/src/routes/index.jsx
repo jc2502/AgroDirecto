@@ -14,6 +14,8 @@ import ProductorDashboard from '../pages/dashboard/ProductorDashboard';
 import CompradorDashboard from '../pages/dashboard/CompradorDashboard';
 import TransportistaDashboard from '../pages/dashboard/TransportistaDashboard';
 import AdminDashboard from '../pages/dashboard/AdminDashboard';
+import Marketplace from '../pages/Marketplace';
+import Preventas from '../pages/Preventas';
 
 function ProtectedRoute({ children, allowedRoles }) {
   const { user, token } = useAuthStore.getState();
@@ -47,6 +49,36 @@ const router = createBrowserRouter([
       { index: true, element: <Landing /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
+      { path: 'productos', element: <Navigate to="/marketplace" replace /> },
+    ],
+  },
+  {
+    path: '/marketplace',
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <Marketplace /> },
+      { path: 'producto/:id', element: <ProductoDetalle /> },
+    ],
+  },
+  {
+    path: '/preventas',
+    element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
+    children: [
+      { index: true, element: <Preventas /> },
+    ],
+  },
+  {
+    path: '/mis-productos',
+    element: <ProtectedRoute allowedRoles={['PRODUCTOR']}><DashboardLayout /></ProtectedRoute>,
+    children: [
+      { index: true, element: <MisProductos /> },
+    ],
+  },
+  {
+    path: '/publicar-cosecha',
+    element: <ProtectedRoute allowedRoles={['PRODUCTOR']}><DashboardLayout /></ProtectedRoute>,
+    children: [
+      { index: true, element: <PublicarCosecha /> },
     ],
   },
   {
@@ -66,13 +98,6 @@ const router = createBrowserRouter([
       { path: 'producto/:id', element: <ProductoDetalle /> },
     ],
   },
-  {
-    path: '/marketplace',
-    element: <MainLayout />,
-    children: [
-      { index: true, element: <div className="p-8 text-center text-gray-400">Próximamente</div> },
-      { path: 'producto/:id', element: <ProductoDetalle /> },
-    ],
 ]);
 
 export default router;

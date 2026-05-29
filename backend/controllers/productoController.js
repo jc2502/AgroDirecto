@@ -1,6 +1,7 @@
 const productoService = require('../services/productoService');
 const { compressAndSave } = require('../middlewares/uploadImages');
 const { getConnection } = require('../database/connection');
+const { validatePreventaDate } = require('../utils/validators');
 
 const productoController = {
     async create(req, res, next) {
@@ -38,6 +39,13 @@ const productoController = {
                 return res.status(400).json({ error: 'El precio debe ser mayor a 0' });
             }
 
+            if (fecha_disponibilidad) {
+                const dateError = validatePreventaDate(fecha_disponibilidad);
+                if (dateError) {
+                    return res.status(400).json({ error: dateError });
+                }
+            }
+
             let imagenesGuardadas = [];
 
             if (req.files && req.files.length > 0) {
@@ -70,6 +78,13 @@ const productoController = {
 
             if (!productor) {
                 return res.status(403).json({ error: 'Debe tener perfil de productor' });
+            }
+
+            if (req.body.fecha_disponibilidad) {
+                const dateError = validatePreventaDate(req.body.fecha_disponibilidad);
+                if (dateError) {
+                    return res.status(400).json({ error: dateError });
+                }
             }
 
             const result = productoService.update(parseInt(req.params.id), productor.id, req.body);

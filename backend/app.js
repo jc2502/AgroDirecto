@@ -13,6 +13,9 @@ const productorRoutes = require('./routes/productorRoutes');
 const documentoRoutes = require('./routes/documentoRoutes');
 const mapsRoutes = require('./routes/mapsRoutes');
 const productoRoutes = require('./routes/productoRoutes');
+const preventaRoutes = require('./routes/preventaRoutes');
+const busquedaRoutes = require('./routes/busquedaRoutes');
+const categoriaRoutes = require('./routes/categoriaRoutes');
 
 const app = express();
 
@@ -53,6 +56,9 @@ app.use('/api/productores', productorRoutes);
 app.use('/api/documentos', documentoRoutes);
 app.use('/api/maps', mapsRoutes);
 app.use('/api/productos', productoRoutes);
+app.use('/api/preventas', preventaRoutes);
+app.use('/api/busqueda', busquedaRoutes);
+app.use('/api/categorias', categoriaRoutes);
 
 // =========================================
 // HEALTH CHECK
