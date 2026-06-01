@@ -49,7 +49,7 @@ export default function ProductorDashboard() {
         </div>
         <div className="card">
           <p className="text-gray-500 text-sm">Ubicación</p>
-          <p className="text-xl font-bold mt-1">{perfil?.localidad || perfil?.municipio || 'No definida'}</p>
+          <p className="text-xl font-bold mt-1">{perfil?.localidad || perfil?.municipio || (perfil?.latitud && perfil?.longitud ? `📍 ${parseFloat(perfil.latitud).toFixed(4)}, ${parseFloat(perfil.longitud).toFixed(4)}` : 'No definida')}</p>
         </div>
       </div>
 

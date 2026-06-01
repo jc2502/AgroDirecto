@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import useAuthStore from '../../store/useAuthStore';
 
 export default function TransportistaDashboard() {
-  const { user } = useAuthStore();
+  const { user, fetchProfile } = useAuthStore();
+
+  useEffect(() => {
+    if (!user?.perfil) fetchProfile();
+  }, []);
 
   return (
     <div className="space-y-6">

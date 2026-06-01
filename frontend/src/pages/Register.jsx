@@ -12,7 +12,7 @@ export default function Register() {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
     rol_id: '', nombre_completo: '', correo: '', password: '', celular: '',
-    tipo_productor: '', nombre_finca: '', experiencia_anios: '', tipo_documento: '', numero_documento: '',
+    tipo_productor: '', nombre_finca: '', experiencia_anios: '',
     tipo_comprador: '', nombre_negocio: '', ciudad_compra: '',
     tipo_transporte: '', capacidad_carga: '', zona_operacion: '', licencia_conducir: '', placa_vehiculo: '',
   });
@@ -175,20 +175,9 @@ export default function Register() {
                       <input name="nombre_finca" value={form.nombre_finca} onChange={handleChange} className="input-field" placeholder="Ej: Finca El Paraíso" />
                       {errors.nombre_finca && <p className="text-xs text-red-500 mt-1">{errors.nombre_finca}</p>}
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Años de Experiencia</label>
-                        <input name="experiencia_anios" type="number" value={form.experiencia_anios} onChange={handleChange} className="input-field" placeholder="5" />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Tipo Documento</label>
-                        <select name="tipo_documento" value={form.tipo_documento} onChange={handleChange} className="input-field">
-                          <option value="">Seleccione...</option>
-                          <option value="CI">Cédula de Identidad</option>
-                          <option value="NIT">NIT</option>
-                          <option value="PASAPORTE">Pasaporte</option>
-                        </select>
-                      </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Años de Experiencia</label>
+                      <input name="experiencia_anios" type="number" value={form.experiencia_anios} onChange={handleChange} className="input-field" placeholder="5" />
                     </div>
                   </>
                 )}
