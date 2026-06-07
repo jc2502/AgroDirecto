@@ -1,10 +1,39 @@
-# 🌾 AgroDirecto Santa Cruz - Sprint 2
+# 🌾 AgroDirecto Santa Cruz - Sprint 3
 
 AgroDirecto es un **Marketplace Agropecuario Inteligente** diseñado para conectar directamente a productores locales, compradores y transportistas de Santa Cruz y toda Bolivia, con el objetivo de reducir costos logísticos, optimizar la cadena de valor alimentaria y asegurar la venta anticipada de cosechas.
 
 ---
 
-## 🚀 Nuevas Características (Sprint 2)
+## 🚀 Nuevas Características (Sprint 3)
+
+### 🛒 Módulo de Pedidos — Carrito y estados
+- Carrito multi-producto con checkout consolidado.
+- Flujo de estados: **Pendiente → Pagado → Enviado → Completado**.
+- API: `/api/carrito`, `/api/pedidos`.
+
+### 💳 Integración de Pagos (QR simulado)
+- Generación de QR dinámico con referencia única y expiración.
+- Simulación de pago exitoso con notificación push (in-app).
+- API: `/api/pagos/generar-qr`, `/api/pagos/simular`.
+
+### 🚚 Módulo Transportista
+- Rutas disponibles: recolección en provincias → entrega en ciudad.
+- Aceptación de rutas, hojas de ruta y paradas por productor.
+- API: `/api/transportista/rutas-disponibles`, `/api/transportista/aceptar-ruta`.
+
+### 📊 Dashboard BI (Sponsor)
+- KPIs de ventas, ticket promedio, ventas por provincia/categoría.
+- Mapa de geografía de producción (Leaflet).
+- Compatible con exportación a Power BI / Looker vía `GET /api/analytics/kpis`.
+
+### 📋 Entregables PMI
+- [Manual de Usuario](docs/MANUAL_USUARIO.md)
+- [Lecciones Aprendidas](docs/LECCIONES_APRENDIDAS.md)
+- [Informe EVM Final](docs/INFORME_EVM.md)
+
+---
+
+## 🚀 Características Sprint 2
 
 ### 🌽 US05 — Publicación de Cosecha
 - **CRUD Completo**: Creación, edición, eliminación y listado de cosechas.
@@ -92,3 +121,16 @@ Necesitas tener Node.js 18+ o superior instalado.
 - `POST /api/preventas/cancelar` - Cancela la preventa y anula reservas (Productor).
 - `GET /api/preventas/mis-reservas` - Listado de reservas hechas por el Comprador.
 - `GET /api/preventas/productor/reservas` - Listado de reservas recibidas por el Productor.
+
+### Sprint 3 — Carrito, Pedidos y Pagos
+- `GET /api/carrito` - Obtener carrito del comprador.
+- `POST /api/carrito/items` - Agregar producto al carrito.
+- `POST /api/pedidos/checkout` - Crear pedido desde carrito.
+- `GET /api/pedidos/mis-pedidos` - Historial de pedidos.
+- `POST /api/pagos/generar-qr` - Generar QR de pago.
+- `POST /api/pagos/simular` - Simular pago exitoso.
+
+### Sprint 3 — Transportista y BI
+- `GET /api/transportista/rutas-disponibles` - Rutas provincia → ciudad.
+- `POST /api/transportista/aceptar-ruta` - Aceptar ruta de entrega.
+- `GET /api/analytics/kpis` - KPIs para dashboard BI (Admin).

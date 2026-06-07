@@ -18,6 +18,10 @@ import TransportistaDashboard from '../pages/dashboard/TransportistaDashboard';
 import AdminDashboard from '../pages/dashboard/AdminDashboard';
 import Marketplace from '../pages/Marketplace';
 import Preventas from '../pages/Preventas';
+import Carrito from '../pages/Carrito';
+import PagoPedido from '../pages/PagoPedido';
+import RutasTransportista from '../pages/RutasTransportista';
+import DashboardBI from '../pages/dashboard/DashboardBI';
 
 function ProtectedRoute({ children, allowedRoles }) {
   const { user, token } = useAuthStore.getState();
@@ -100,6 +104,30 @@ const router = createBrowserRouter([
       { path: 'producto/:id', element: <ProductoDetalle /> },
       { path: 'mis-pedidos', element: <ProtectedRoute allowedRoles={['COMPRADOR']}><MisPedidos /></ProtectedRoute> },
       { path: 'mis-ventas', element: <ProtectedRoute allowedRoles={['PRODUCTOR']}><MisVentas /></ProtectedRoute> },
+      { path: 'carrito', element: <ProtectedRoute allowedRoles={['COMPRADOR']}><Carrito /></ProtectedRoute> },
+      { path: 'rutas-transportista', element: <ProtectedRoute allowedRoles={['TRANSPORTISTA']}><RutasTransportista /></ProtectedRoute> },
+      { path: 'bi', element: <ProtectedRoute allowedRoles={['ADMIN']}><DashboardBI /></ProtectedRoute> },
+    ],
+  },
+  {
+    path: '/carrito',
+    element: <ProtectedRoute allowedRoles={['COMPRADOR']}><DashboardLayout /></ProtectedRoute>,
+    children: [
+      { index: true, element: <Carrito /> },
+    ],
+  },
+  {
+    path: '/pago/:pedidoId',
+    element: <ProtectedRoute allowedRoles={['COMPRADOR']}><MainLayout /></ProtectedRoute>,
+    children: [
+      { index: true, element: <PagoPedido /> },
+    ],
+  },
+  {
+    path: '/rutas-transportista',
+    element: <ProtectedRoute allowedRoles={['TRANSPORTISTA']}><DashboardLayout /></ProtectedRoute>,
+    children: [
+      { index: true, element: <RutasTransportista /> },
     ],
   },
   {

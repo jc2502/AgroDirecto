@@ -18,6 +18,11 @@ const busquedaRoutes = require('./routes/busquedaRoutes');
 const categoriaRoutes = require('./routes/categoriaRoutes');
 const comprasRoutes = require('./routes/comprasRoutes');
 const notificacionRoutes = require('./routes/notificacionRoutes');
+const carritoRoutes = require('./routes/carritoRoutes');
+const pedidosRoutes = require('./routes/pedidosRoutes');
+const pagosRoutes = require('./routes/pagosRoutes');
+const transportistaRoutes = require('./routes/transportistaRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
 
 const app = express();
 
@@ -63,6 +68,11 @@ app.use('/api/busqueda', busquedaRoutes);
 app.use('/api/categorias', categoriaRoutes);
 app.use('/api/compras', comprasRoutes);
 app.use('/api/notificaciones', notificacionRoutes);
+app.use('/api/carrito', carritoRoutes);
+app.use('/api/pedidos', pedidosRoutes);
+app.use('/api/pagos', pagosRoutes);
+app.use('/api/transportista', transportistaRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // =========================================
 // HEALTH CHECK

@@ -3,6 +3,7 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/useAuthStore';
 import Sidebar from './Sidebar';
 import NotificationBell from '../components/NotificationBell';
+import CartButton from '../components/CartButton';
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -33,6 +34,7 @@ export default function DashboardLayout() {
             </Link>
           </div>
           <div className="flex items-center space-x-4">
+            <CartButton />
             <NotificationBell />
             <span className="hidden sm:inline text-sm text-gray-500">{user?.nombre_completo}</span>
             <span className="badge-info">{user?.rol_nombre}</span>

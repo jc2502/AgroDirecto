@@ -117,6 +117,30 @@ export default function ProductoDetalle() {
     }
   };
 
+  const handleAgregarCarrito = async () => {
+    if (!reservaCantidad || parseFloat(reservaCantidad) <= 0) {
+      setErrorMsg('Ingrese una cantidad válida mayor a 0');
+      return;
+    }
+    setReservaLoading(true);
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    try {
+      await api.post('/carrito/items', {
+        producto_id: producto.id,
+        cantidad: parseFloat(reservaCantidad)
+      });
+      setSuccessMsg(`Producto agregado al carrito. Total estimado: Bs ${totalEstimado}`);
+      setReservaCantidad('');
+      window.dispatchEvent(new Event('carrito-updated'));
+    } catch (err) {
+      setErrorMsg(err.response?.data?.error || 'Error al agregar al carrito');
+    } finally {
+      setReservaLoading(false);
+    }
+  };
+
   const handleReservar = async (e) => {
     e.preventDefault();
     if (!reservaCantidad || parseFloat(reservaCantidad) <= 0) {
@@ -275,13 +299,26 @@ export default function ProductoDetalle() {
                     </div>
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={reservaLoading || !reservaCantidad || parseFloat(reservaCantidad) <= 0}
-                    className="btn-primary w-full text-sm py-2.5 flex items-center justify-center gap-1.5"
-                  >
-                    {reservaLoading ? 'Procesando...' : `Comprar (Bs ${totalEstimado})`}
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      type="submit"
+                      disabled={reservaLoading || !reservaCantidad || parseFloat(reservaCantidad) <= 0}
+                      className="btn-primary flex-1 text-sm py-2.5"
+                    >
+                      {reservaLoading ? 'Procesando...' : `Comprar (Bs ${totalEstimado})`}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleAgregarCarrito}
+                      disabled={reservaLoading || !reservaCantidad || parseFloat(reservaCantidad) <= 0}
+                      className="btn-outline flex-1 text-sm py-2.5"
+                    >
+                      🛒 Agregar al Carrito
+                    </button>
+                  </div>
+                  <Link to="/carrito" className="text-xs text-primary-600 hover:underline block text-center">
+                    Ver carrito →
+                  </Link>
                 </form>
               ) : (
                 <div className="bg-gray-50 p-4 border border-gray-200 rounded-xl text-center">

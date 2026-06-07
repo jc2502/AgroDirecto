@@ -14,15 +14,18 @@ const menuItems = {
   COMPRADOR: [
     { to: '/dashboard/comprador', label: 'Dashboard', icon: '📊' },
     { to: '/marketplace', label: 'Marketplace', icon: '🛒' },
+    { to: '/carrito', label: 'Carrito', icon: '🛒' },
     { to: '/mis-pedidos', label: 'Mis Pedidos', icon: '🛍️' },
     { to: '/preventas', label: 'Mis Reservas', icon: '🌾' },
   ],
   TRANSPORTISTA: [
     { to: '/dashboard/transportista', label: 'Dashboard', icon: '📊' },
+    { to: '/rutas-transportista', label: 'Rutas de Entrega', icon: '🚚' },
     { to: '/dashboard/documentos', label: 'Documentos', icon: '📄' },
   ],
   ADMIN: [
     { to: '/dashboard/admin', label: 'Dashboard', icon: '📊' },
+    { to: '/dashboard/bi', label: 'Dashboard BI', icon: '📈' },
     { to: '/dashboard/geolocalizacion', label: 'Mapa', icon: '📍' },
     { to: '/dashboard/documentos', label: 'Documentos', icon: '📄' },
   ],

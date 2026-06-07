@@ -36,6 +36,13 @@ export default function TransportistaDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Link to="/rutas-transportista" className="card-hover flex items-center space-x-4">
+          <span className="text-3xl">🚚</span>
+          <div>
+            <h3 className="font-semibold">Rutas de Entrega</h3>
+            <p className="text-sm text-gray-500">Acepta rutas desde provincias hacia la ciudad</p>
+          </div>
+        </Link>
         <Link to="/dashboard/documentos" className="card-hover flex items-center space-x-4">
           <span className="text-3xl">📄</span>
           <div>
@@ -43,13 +50,6 @@ export default function TransportistaDashboard() {
             <p className="text-sm text-gray-500">Adjunta tu licencia de conducir</p>
           </div>
         </Link>
-        <div className="card-hover flex items-center space-x-4 opacity-50 cursor-not-allowed">
-          <span className="text-3xl">🚚</span>
-          <div>
-            <h3 className="font-semibold">Viajes Disponibles</h3>
-            <p className="text-sm text-gray-500">Próximamente</p>
-          </div>
-        </div>
       </div>
     </div>
   );
