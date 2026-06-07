@@ -8,6 +8,7 @@ const menuItems = {
     { to: '/publicar-cosecha', label: 'Publicar Cosecha', icon: '🌾' },
     { to: '/mis-ventas', label: 'Mis Ventas', icon: '💰' },
     { to: '/preventas', label: 'Reservas Recibidas', icon: '📋' },
+    { to: '/notificaciones', label: 'Notificaciones', icon: '🔔' },
     { to: '/dashboard/geolocalizacion', label: 'Mi Ubicación', icon: '📍' },
     { to: '/dashboard/documentos', label: 'Documentos', icon: '📄' },
   ],
@@ -17,16 +18,19 @@ const menuItems = {
     { to: '/carrito', label: 'Carrito', icon: '🛒' },
     { to: '/mis-pedidos', label: 'Mis Pedidos', icon: '🛍️' },
     { to: '/preventas', label: 'Mis Reservas', icon: '🌾' },
+    { to: '/notificaciones', label: 'Notificaciones', icon: '🔔' },
   ],
   TRANSPORTISTA: [
     { to: '/dashboard/transportista', label: 'Dashboard', icon: '📊' },
     { to: '/rutas-transportista', label: 'Rutas de Entrega', icon: '🚚' },
+    { to: '/notificaciones', label: 'Notificaciones', icon: '🔔' },
     { to: '/dashboard/documentos', label: 'Documentos', icon: '📄' },
   ],
   ADMIN: [
     { to: '/dashboard/admin', label: 'Dashboard', icon: '📊' },
     { to: '/dashboard/bi', label: 'Dashboard BI', icon: '📈' },
     { to: '/dashboard/geolocalizacion', label: 'Mapa', icon: '📍' },
+    { to: '/notificaciones', label: 'Notificaciones', icon: '🔔' },
     { to: '/dashboard/documentos', label: 'Documentos', icon: '📄' },
   ],
 };

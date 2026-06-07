@@ -17,8 +17,8 @@ class PedidosService {
         if (carrito.items.length === 0) throw { status: 400, message: 'El carrito está vacío' };
 
         for (const item of carrito.items) {
-            const producto = db.prepare('SELECT cantidad_disponible, estado FROM productos WHERE id = ?').get(item.producto_id);
-            if (producto.estado !== 'DISPONIBLE' || producto.cantidad_disponible < item.cantidad) {
+            const producto = db.prepare('SELECT cantidad_disponible, estado FROM productos WHERE id = ? AND activo = 1').get(item.producto_id);
+            if (!producto || producto.estado !== 'DISPONIBLE' || producto.cantidad_disponible < item.cantidad) {
                 throw { status: 400, message: `Stock insuficiente para "${item.nombre}"` };
             }
         }
@@ -36,7 +36,7 @@ class PedidosService {
                 VALUES (?, ?, ?, ?, ?)
             `).run(pedidoId, item.producto_id, item.cantidad, item.precio, subtotal);
 
-            const producto = db.prepare('SELECT cantidad_disponible FROM productos WHERE id = ?').get(item.producto_id);
+            const producto = db.prepare('SELECT cantidad_disponible FROM productos WHERE id = ? AND activo = 1').get(item.producto_id);
             const nuevaCantidad = producto.cantidad_disponible - item.cantidad;
             const nuevoEstado = nuevaCantidad === 0 ? 'AGOTADO' : 'DISPONIBLE';
             db.prepare('UPDATE productos SET cantidad_disponible = ?, estado = ? WHERE id = ?')

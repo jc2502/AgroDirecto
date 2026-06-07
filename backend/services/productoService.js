@@ -27,7 +27,7 @@ class ProductoService {
         return producto.lastInsertRowid;
     }
 
-    update(productoId, productorId, data) {
+    update(productoId, productorId, data, nuevasImagenes = null) {
         const db = getConnection();
         const producto = db.prepare(
             'SELECT * FROM productos WHERE id = ? AND productor_id = ?'
@@ -67,6 +67,20 @@ class ProductoService {
             productoId, productorId
         );
 
+        // Replace images if new ones were uploaded
+        if (nuevasImagenes !== null) {
+            const oldImages = db.prepare(
+                'SELECT ruta_imagen FROM producto_imagenes WHERE producto_id = ?'
+            ).all(productoId);
+            db.prepare('DELETE FROM producto_imagenes WHERE producto_id = ?').run(productoId);
+            const insertImg = db.prepare(
+                'INSERT INTO producto_imagenes (producto_id, ruta_imagen) VALUES (?, ?)'
+            );
+            for (const img of nuevasImagenes) {
+                insertImg.run(productoId, img);
+            }
+        }
+
         return { message: 'Producto actualizado' };
     }
 
@@ -80,10 +94,25 @@ class ProductoService {
             throw { status: 404, message: 'Producto no encontrado o no autorizado' };
         }
 
+        // Check if product has any orders — if not, hard delete; otherwise soft delete
+        const ordenes = db.prepare(`
+            SELECT (SELECT COUNT(*) FROM pedido_detalles WHERE producto_id = ?) +
+                   (SELECT COUNT(*) FROM compras WHERE producto_id = ?) as total
+        `).get(productoId, productoId);
+
+        if (ordenes.total > 0) {
+            db.prepare("UPDATE productos SET cantidad_disponible = 0, estado = 'AGOTADO', activo = 0 WHERE id = ?")
+                .run(productoId);
+            return { message: 'Producto desactivado (tenía pedidos asociados)' };
+        }
+
+        // Hard delete: no orders exist
+        db.prepare('DELETE FROM carrito_items WHERE producto_id = ?').run(productoId);
+        db.prepare('DELETE FROM reservas_preventa WHERE producto_id = ?').run(productoId);
         db.prepare('DELETE FROM producto_imagenes WHERE producto_id = ?').run(productoId);
         db.prepare('DELETE FROM productos WHERE id = ?').run(productoId);
 
-        return { message: 'Producto eliminado' };
+        return { message: 'Producto eliminado permanentemente' };
     }
 
     getById(productoId) {
@@ -97,7 +126,7 @@ class ProductoService {
             JOIN categorias c ON p.categoria_id = c.id
             JOIN productores pr ON p.productor_id = pr.id
             JOIN usuarios u ON pr.usuario_id = u.id
-            WHERE p.id = ?
+            WHERE p.id = ? AND p.activo = 1
         `).get(productoId);
 
         if (!producto) {
@@ -123,7 +152,7 @@ class ProductoService {
                    (SELECT COUNT(*) FROM producto_imagenes WHERE producto_id = p.id) as total_imagenes
             FROM productos p
             JOIN categorias c ON p.categoria_id = c.id
-            WHERE p.productor_id = ?
+            WHERE p.productor_id = ? AND p.activo = 1
             ORDER BY p.fecha_publicacion DESC
         `).all(productor.id);
 
@@ -144,7 +173,7 @@ class ProductoService {
             JOIN categorias c ON p.categoria_id = c.id
             JOIN productores pr ON p.productor_id = pr.id
             JOIN usuarios u ON pr.usuario_id = u.id
-            WHERE 1=1
+            WHERE p.activo = 1
         `;
         const params = [];
 
@@ -176,7 +205,7 @@ class ProductoService {
     updateStock(productoId, productorId, cantidad) {
         const db = getConnection();
         const producto = db.prepare(
-            'SELECT * FROM productos WHERE id = ? AND productor_id = ?'
+            'SELECT * FROM productos WHERE id = ? AND productor_id = ? AND activo = 1'
         ).get(productoId, productorId);
 
         if (!producto) {

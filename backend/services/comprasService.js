@@ -17,7 +17,7 @@ class ComprasService {
             FROM productos p
             JOIN productores pr ON p.productor_id = pr.id
             JOIN usuarios u ON pr.usuario_id = u.id
-            WHERE p.id = ?
+            WHERE p.id = ? AND p.activo = 1
         `).get(productoId);
 
         if (!producto) throw { status: 404, message: 'Producto no encontrado' };
@@ -286,6 +286,47 @@ class ComprasService {
         `).all(productor.id);
 
         return [...compras, ...reservas].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    }
+
+    // ==================================================
+    // PRODUCTOR: Rechazar compra pendiente (restaura stock)
+    // ==================================================
+    rechazar(productorUsuarioId, compraId) {
+        const db = getConnection();
+
+        const productor = db.prepare('SELECT id FROM productores WHERE usuario_id = ?').get(productorUsuarioId);
+        if (!productor) throw { status: 403, message: 'Perfil de productor requerido' };
+
+        const compra = db.prepare(`
+            SELECT c.*, p.productor_id, p.cantidad_disponible, p.unidad_medida,
+                   p.nombre as producto_nombre, u.id as comprador_usuario_id
+            FROM compras c
+            JOIN productos p ON c.producto_id = p.id
+            JOIN compradores comp ON c.comprador_id = comp.id
+            JOIN usuarios u ON comp.usuario_id = u.id
+            WHERE c.id = ? AND p.productor_id = ?
+        `).get(compraId, productor.id);
+
+        if (!compra) throw { status: 404, message: 'Compra no encontrada o no autorizada' };
+        if (compra.estado !== 'PENDIENTE') {
+            throw { status: 400, message: `No se puede rechazar una compra en estado: ${compra.estado}` };
+        }
+
+        // Restaurar stock del producto
+        const nuevoStock = compra.cantidad_disponible + compra.cantidad;
+        const nuevoEstado = 'DISPONIBLE';
+        db.prepare('UPDATE productos SET cantidad_disponible = ?, estado = ? WHERE id = ?')
+            .run(nuevoStock, nuevoEstado, compra.producto_id);
+
+        // Marcar compra como rechazada
+        db.prepare("UPDATE compras SET estado = 'RECHAZADA' WHERE id = ?").run(compraId);
+
+        db.prepare(`INSERT INTO notificaciones (usuario_id, titulo, mensaje) VALUES (?, ?, ?)`)
+            .run(compra.comprador_usuario_id,
+                'Compra Rechazada',
+                `El productor rechazó tu compra de ${compra.cantidad} ${compra.unidad_medida} de "${compra.producto_nombre}". El producto vuelve a estar disponible.`);
+
+        return { mensaje: 'Compra rechazada, stock restaurado' };
     }
 
     getCompraById(compraId) {

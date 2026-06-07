@@ -30,6 +30,13 @@ async function initializeDatabase() {
             // Ignorar si la columna ya existe
         }
 
+        try {
+            db.exec("ALTER TABLE productos ADD COLUMN activo INTEGER DEFAULT 1");
+            console.log('✅ Migración: Columna activo añadida a productos');
+        } catch (e) {
+            // Ignorar si la columna ya existe
+        }
+
         // Tabla de compras directas (productos DISPONIBLE)
         db.exec(`
             CREATE TABLE IF NOT EXISTS compras (

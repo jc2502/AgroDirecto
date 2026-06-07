@@ -13,7 +13,7 @@ router.get('/mis-productos/lista', authenticate, authorize('PRODUCTOR'), product
 
 router.post('/crear', authenticate, authorize('PRODUCTOR'), upload.array('imagenes', 5), productoController.create);
 
-router.put('/:id', authenticate, authorize('PRODUCTOR'), productoController.update);
+router.put('/:id', authenticate, authorize('PRODUCTOR'), upload.array('imagenes', 5), productoController.update);
 
 router.put('/:id/stock', authenticate, authorize('PRODUCTOR'), productoController.updateStock);
 

@@ -20,6 +20,7 @@ import Marketplace from '../pages/Marketplace';
 import Preventas from '../pages/Preventas';
 import Carrito from '../pages/Carrito';
 import PagoPedido from '../pages/PagoPedido';
+import NotificacionesPage from '../pages/NotificacionesPage';
 import RutasTransportista from '../pages/RutasTransportista';
 import DashboardBI from '../pages/dashboard/DashboardBI';
 
@@ -142,6 +143,13 @@ const router = createBrowserRouter([
     element: <ProtectedRoute allowedRoles={['PRODUCTOR']}><DashboardLayout /></ProtectedRoute>,
     children: [
       { index: true, element: <MisVentas /> },
+    ],
+  },
+  {
+    path: '/notificaciones',
+    element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
+    children: [
+      { index: true, element: <NotificacionesPage /> },
     ],
   },
 ]);

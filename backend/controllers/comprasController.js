@@ -61,6 +61,16 @@ const comprasController = {
         } catch (err) { next(err); }
     },
 
+    // Productor rechaza compra pendiente (restaura stock)
+    async rechazar(req, res, next) {
+        try {
+            const { compra_id } = req.body;
+            if (!compra_id) return res.status(400).json({ error: 'compra_id es requerido' });
+            const result = comprasService.rechazar(req.user.id, parseInt(compra_id));
+            res.json(result);
+        } catch (err) { next(err); }
+    },
+
     // Ventas del productor (compras + reservas)
     async getVentas(req, res, next) {
         try {

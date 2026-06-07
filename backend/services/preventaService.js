@@ -16,7 +16,7 @@ class PreventaService {
             FROM productos p
             JOIN productores pr ON p.productor_id = pr.id
             JOIN usuarios u ON pr.usuario_id = u.id
-            WHERE p.id = ?
+            WHERE p.id = ? AND p.activo = 1
         `).get(productoId);
 
         if (!producto) {
@@ -96,8 +96,8 @@ class PreventaService {
             throw { status: 400, message: 'El producto no se encuentra en estado de preventa' };
         }
 
-        // 3. Confirmar disponibilidad: cambiar estado a DISPONIBLE
-        db.prepare("UPDATE productos SET estado = 'DISPONIBLE', fecha_disponibilidad = NULL WHERE id = ?")
+        // 3. Confirmar disponibilidad: solo actualizar fecha_disponibilidad, mantener estado PREVENTA
+        db.prepare("UPDATE productos SET fecha_disponibilidad = NULL WHERE id = ?")
             .run(productoId);
 
         // 4. Cambiar estado de todas las reservas de PENDIENTE a CONFIRMADA

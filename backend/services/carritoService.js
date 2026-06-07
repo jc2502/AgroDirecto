@@ -43,7 +43,7 @@ class CarritoService {
         const comprador = this._getComprador(compradorUsuarioId);
         const carrito = this._getOrCreateCarrito(comprador.id);
 
-        const producto = db.prepare('SELECT * FROM productos WHERE id = ?').get(productoId);
+        const producto = db.prepare('SELECT * FROM productos WHERE id = ? AND activo = 1').get(productoId);
         if (!producto) throw { status: 404, message: 'Producto no encontrado' };
         if (producto.estado !== 'DISPONIBLE') {
             throw { status: 400, message: 'Solo productos disponibles pueden agregarse al carrito' };

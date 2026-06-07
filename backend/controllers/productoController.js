@@ -2,6 +2,8 @@ const productoService = require('../services/productoService');
 const { compressAndSave } = require('../middlewares/uploadImages');
 const { getConnection } = require('../database/connection');
 const { validatePreventaDate } = require('../utils/validators');
+const fs = require('fs');
+const path = require('path');
 
 const productoController = {
     async create(req, res, next) {
@@ -87,7 +89,7 @@ const productoController = {
 
     async update(req, res, next) {
         try {
-            this._checkVerificado(req.user.id);
+            productoController._checkVerificado(req.user.id);
             const db = getConnection();
             const productor = db.prepare(
                 'SELECT id FROM productores WHERE usuario_id = ?'
@@ -104,16 +106,27 @@ const productoController = {
                 }
             }
 
-            const result = productoService.update(parseInt(req.params.id), productor.id, req.body);
+            // Handle image replacement
+            let nuevasImagenes = null;
+            if (req.files && req.files.length > 0) {
+                nuevasImagenes = [];
+                for (const file of req.files) {
+                    const filename = `prod-${Date.now()}-${Math.round(Math.random() * 1e9)}.jpg`;
+                    const ruta = await compressAndSave(file.buffer, filename);
+                    nuevasImagenes.push(ruta);
+                }
+            }
+
+            const result = productoService.update(parseInt(req.params.id), productor.id, req.body, nuevasImagenes);
             res.json(result);
         } catch (error) {
             next(error);
         }
     },
 
-    delete(req, res, next) {
+    async delete(req, res, next) {
         try {
-            this._checkVerificado(req.user.id);
+            productoController._checkVerificado(req.user.id);
             const db = getConnection();
             const productor = db.prepare(
                 'SELECT id FROM productores WHERE usuario_id = ?'
@@ -165,7 +178,7 @@ const productoController = {
 
     updateStock(req, res, next) {
         try {
-            this._checkVerificado(req.user.id);
+            productoController._checkVerificado(req.user.id);
             const db = getConnection();
             const productor = db.prepare(
                 'SELECT id FROM productores WHERE usuario_id = ?'

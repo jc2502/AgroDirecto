@@ -69,8 +69,8 @@ function validatePreventaDate(dateString) {
     if (diffDays < 3) {
         return 'La fecha de disponibilidad futura debe ser de al menos 3 días a partir de hoy';
     }
-    if (diffDays > 90) {
-        return 'La fecha de disponibilidad futura no puede exceder los 90 días a partir de hoy';
+    if (diffDays > 365) {
+        return 'La fecha de disponibilidad futura no puede exceder los 365 días a partir de hoy';
     }
     return null;
 }

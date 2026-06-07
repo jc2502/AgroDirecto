@@ -103,7 +103,9 @@ export default function PublicarCosecha() {
       files.forEach(f => formData.append('imagenes', f));
 
       if (esEdicion) {
-        await api.put(`/productos/${id}`, form);
+        await api.put(`/productos/${id}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
         setSuccess('Producto actualizado');
       } else {
         await api.post('/productos/crear', formData, {
