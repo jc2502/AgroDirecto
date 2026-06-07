@@ -115,6 +115,14 @@ class ProductoService {
         return { message: 'Producto eliminado permanentemente' };
     }
 
+    _autoTransitionPreventa() {
+        const db = getConnection();
+        db.prepare(`
+            UPDATE productos SET estado = 'DISPONIBLE', fecha_disponibilidad = NULL
+            WHERE estado = 'PREVENTA' AND fecha_disponibilidad <= date('now') AND activo = 1
+        `).run();
+    }
+
     getById(productoId) {
         const db = getConnection();
         const producto = db.prepare(`
@@ -141,6 +149,7 @@ class ProductoService {
     }
 
     getByProductor(usuarioId) {
+        this._autoTransitionPreventa();
         const db = getConnection();
         const productor = db.prepare('SELECT id FROM productores WHERE usuario_id = ?').get(usuarioId);
         if (!productor) {
@@ -160,6 +169,7 @@ class ProductoService {
     }
 
     listAll(filters = {}) {
+        this._autoTransitionPreventa();
         const db = getConnection();
         let sql = `
             SELECT p.id, p.nombre, p.variedad, p.cantidad_disponible, p.unidad_medida,
